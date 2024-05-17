@@ -1,0 +1,16 @@
+version: "3.7"
+services:
+  app:
+    image: patra-logistic
+    container_name: patra-logistic
+    build: .
+    env_file:
+      - ./.env
+    ports:
+      - "9010:3000"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge

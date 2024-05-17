@@ -1,0 +1,5 @@
+mixin vselect({ label, name, required, options }, value)
+    label=label
+    select.form-select(name=name id=name )
+        each option in options
+            option(value=option.value selected=(option.value == value))=(option.text || option.value)

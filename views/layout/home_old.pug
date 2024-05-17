@@ -1,0 +1,25 @@
+- var static = true
+doctype html
+include ../partials/copyright.pug
+html(lang='en')
+  head
+    base(href=base)
+    include ../partials/head.pug
+    block styles
+  body(style='min-height: 100vh; background-color: #fff')
+    .main-menu
+      include ../partials/header.pug
+      .content
+        include ../partials/sidebar.pug
+    include ../partials/navbar.pug
+    #wrapper(style='min-height: 100vh; background-color: #fff;')
+      .main-content(style='min-height: 100vh; position: relative;')
+        .row
+          .col-xs-12
+            include ../partials/breadcrumb
+            include ../partials/flash
+            block content
+            div(style='height: 50px; margin-top: 40px')
+        include ../partials/footer.pug
+    block modals
+    include ../partials/scripts.pug

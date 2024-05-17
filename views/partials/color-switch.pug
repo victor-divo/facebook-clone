@@ -1,0 +1,38 @@
+#color-switcher
+      #color-switcher-button.btn-switcher
+        .inside.waves-effect.waves-circle.waves-light
+          i.ico.fa.fa-gear
+        #color-switcher-content.content
+          a.item.js__change_color(href='#', data-color='red')
+            span.color(style='background-color: #f44336;')
+            span.text Red
+          a.item.js__change_color(href='#', data-color='violet')
+            span.color(style='background-color: #673ab7;')
+            span.text Violet
+          a.item.js__change_color(href='#', data-color='dark-blue')
+            span.color(style='background-color: #3f51b5;')
+            span.text Dark Blue
+          a.item.js__change_color.active(href='#', data-color='blue')
+            span.color(style='background-color: #304ffe;')
+            span.text Blue
+          a.item.js__change_color(href='#', data-color='light-blue')
+            span.color(style='background-color: #2196f3;')
+            span.text Light Blue
+          a.item.js__change_color(href='#', data-color='green')
+            span.color(style='background-color: #4caf50;')
+            span.text Green
+          a.item.js__change_color(href='#', data-color='yellow')
+            span.color(style='background-color: #ffc107;')
+            span.text Yellow
+          a.item.js__change_color(href='#', data-color='orange')
+            span.color(style='background-color: #ff5722;')
+            span.text Orange
+          a.item.js__change_color(href='#', data-color='chocolate')
+            span.color(style='background-color: #795548;')
+            span.text Chocolate
+          a.item.js__change_color(href='#', data-color='dark-green')
+            span.color(style='background-color: #263238;')
+            span.text Dark Green
+          span#color-reset.btn-restore-default.js__restore_default Reset
+        // /.content
+        // #color-switcher

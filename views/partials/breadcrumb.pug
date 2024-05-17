@@ -1,0 +1,9 @@
+// Breadcrumb
+if (breadcrumbs)
+  ol.breadcrumb(style='background-color: transparent')
+    each breadcrumb in breadcrumbs
+      if (breadcrumb.url)
+        li.breadcrumb-item
+          a.breadcrumb-url(href=breadcrumb.url)=breadcrumb.name
+      else
+        li.breadcrumb-item=breadcrumb.name

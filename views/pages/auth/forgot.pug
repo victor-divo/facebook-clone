@@ -1,0 +1,34 @@
+extends ../layout/landing
+
+block content
+  .container
+    .row.justify-content-center
+      .col-md-8
+        .card-group
+          .card.p-4
+            .card-body
+              include ../partials/flash
+              form(method='POST', action="/forgot")
+                input(type='hidden', name='_csrf', value=_csrf)
+                h1 Lupa Password
+                p.text-muted Masukkan nomor pegawai anda untuk melakukan reset
+                .input-group.mb-3
+                  .input-group-prepend
+                    span.input-group-text
+                      i.icon-user
+                  input.form-control(type='text', name="employeeNumber", placeholder='Nomor Pegawai', autofocus, required)
+                .input-group.mb-3
+                  .input-group-prepend
+                    span.input-group-text
+                      i.icon-lock
+                  input.form-control(type='password', name="newPassword", placeholder='Password Baru', autofocus, required)
+                .input-group.mb-3
+                  .input-group-prepend
+                    span.input-group-text
+                      i.icon-lock
+                  input.form-control(type='password', name="confirmPassword", placeholder='Konfirmasi Password Baru', autofocus, required)
+                .row
+                  .col-6
+                    button.btn.btn-primary.px-4(type='submit') Ganti Password
+                  .col-6.text-right
+                    a.btn.btn-link.px-0(href='/login') Kembali ke halaman login

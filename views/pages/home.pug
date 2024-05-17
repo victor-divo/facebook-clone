@@ -1,0 +1,87 @@
+extends ../layout/home
+
+block content
+  .row.mt-3.px-2 
+    div(style="display: flex; align-items: center; justify-content: space-between; gap: 15px; flex-wrap: wrap")
+      div 
+        div(style="color: white; width: max-content; border-radius: 24px; background-color: gray; font-size: 20px; padding: 5px 14px; font-weight: 500;") 
+          | Dashboard
+      div(style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;") 
+        if(user.role == 'patlog_admin')
+          select.form-control(name="location" style="width: 200px;")
+            option(value="semarang") Semarang 
+            option(value="bandung") Bandung  
+        input#filter-date.form-control(type="month" style="width: 200px")
+
+  .row.mt-3.px-2 
+    .col-xs-12.col-md-6
+      .card.py-3.px-4
+        div(style="display: flex; align-items: center; gap: 8px;")
+          div 
+            i.menu-icon.fa.fa-paper-plane-o(style="color: green;")
+          div 
+            | Minyak Terkirim
+
+        div.mt-3(style="font-size: 20px; font-weight: bold;") 
+            | #{oilSentSummary/1000} KL
+
+        div.mt-3(style="text-align: right; text-decoration: underline; text-decoration-color: blue; text-underline-offset: 4px")
+            a(href="/oil-delivered", style="color: blue; font-weight: 500;") Lihat Lebih Lengkap 
+
+    .col-xs-12.col-md-6
+      .card.py-3.px-4 
+        div(style="display: flex; align-items: center; gap: 8px;")
+          div 
+            i.menu-icon.fa.fa-check(style="color: black;")
+          div 
+            | PO Selesai
+
+        div.mt-3(style="font-size: 20px; font-weight: bold;") 
+            | #{countSelesai} 
+            span(style="color: gray; font-size: 14px; font-weight: 400;") Invoice Sudah Terunggah
+
+        div.mt-3(style="text-align: right; text-decoration: underline; text-decoration-color: blue; text-underline-offset: 4px")
+            a(href="/po-selesai", style="color: blue; font-weight: 500;") Lihat Lebih Lengkap 
+
+    .col-xs-12.col-md-6
+      .card.py-3.px-4 
+        div(style="display: flex; align-items: center; gap: 8px;")
+          div 
+            i.menu-icon.fa.fa-clock-o(style="color: orange;")
+          div 
+            | PO Belum Selesai
+
+        div.mt-3(style="font-size: 20px; font-weight: bold;") 
+            | #{countBelumSelesai} 
+            span(style="color: gray; font-size: 14px; font-weight: 400;") Bast Blm Terunggah
+
+        div.mt-3(style="text-align: right; text-decoration: underline; text-decoration-color: blue; text-underline-offset: 4px")
+            a(href="/po-belum-selesai", style="color: blue; font-weight: 500;") Lihat Lebih Lengkap 
+
+    .col-xs-12.col-md-6
+      .card.py-3.px-4 
+        div(style="display: flex; align-items: center; gap: 8px;")
+          div 
+            i.menu-icon.fa.fa-question(style="color: red;")
+          div 
+            | Ada Perbedaan Data
+
+        div.mt-3(style="font-size: 20px; font-weight: bold;") 
+            | #{countAdaPerbedaan} 
+            span(style="color: gray; font-size: 14px; font-weight: 400;") Data Berbeda
+
+        div.mt-3(style="text-align: right; text-decoration: underline; text-decoration-color: blue; text-underline-offset: 4px")
+            a(href="/po-perbedaan-data", style="color: blue; font-weight: 500;") Lihat Lebih Lengkap 
+
+
+
+block scripts
+  script.
+
+    const currentDate = new Date()
+    const year = currentDate.getFullYear()
+    const month = currentDate.getMonth() + 1
+
+    $('#filter-date').val(`${year}-${month < 10 ? `0${month}` : month}`)
+
+

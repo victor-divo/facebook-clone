@@ -1,0 +1,170 @@
+extends ../../../layout/home
+
+
+block modal
+	#formModal.modal.fade(tabindex='-1' aria-labelledby='formModal' aria-hidden='true')
+		.modal-dialog
+			.modal-content
+				.modal-header
+					h1#formModal.modal-title.fs-5 Tambah Customer Pusat
+					button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+				.modal-body
+					form#customerForm
+						input#editId(type="hidden" name="id" value="")
+						input(type='hidden' name='_csrf', value=_csrf)
+						.mb-3
+							label.col-form-label(for='name') Nama
+							input#name.form-control(type='text' placeholder='KAI' name="name" required)
+
+				.modal-footer
+					button.btn.btn-secondary(type='button' data-bs-dismiss='modal') Batal
+					button#submit.btn.btn-primary(type='submit' form="customerForm") Simpan
+
+
+block content
+	.container-fluid
+		.page-title
+			.row
+				.col-6
+					h4 Customer Pusat
+				.col-6
+					ol.breadcrumb
+						li.breadcrumb-item
+							a(href='index.html')
+								svg.stroke-icon
+									use(href='../assets/svg/icon-sprite.svg#stroke-home')
+						li.breadcrumb-item Master
+						li.breadcrumb-item.active Customer
+	.container-fluid
+		.row
+			.col-md-12
+				.card
+					.card-body
+						button#addData.btn.btn-primary.m-2.float-end(data-bs-toggle="modal" data-bs-target="#formModal" ) Tambah
+						table#dataTable.table.table-hover.table-condensed.text-center
+							thead
+								tr
+									th(style="text-align: center;") No
+									th(style="text-align: center;") Nama
+									th(style="text-align: center;") Aksi
+							tbody 
+
+block scripts
+	script(src="/assets/js/datatable/datatables/jquery.dataTables.min.js")
+	script.
+		$(document).ready(function() {
+			let table = $('#dataTable').DataTable({
+				searching: false,
+				lengthChange: false,
+				pageLength: 10,
+				processing: true,
+				serverSide: true,
+				ajax: {
+					type: 'GET',
+					url: '/api/master/customer/datatable',
+					dataSrc: (r) => r.data,
+					data: (f) => {
+
+					}
+				},
+				paging: true,
+				columns: [
+					{ render: (data, type, row, meta) => { return meta.row +1 } },
+					{ render: (data, type, row) => { return row.name} },
+					{
+						render: (data, type, row, meta) => {
+							return `<button class="mx-2 btn btn-info edit-data" data-index=${meta.row}><i class="menu-icon fa fa-edit"></i></button>
+							<button class="mx-2 btn btn-danger delete-data" data-id=${row.id}><i class="menu-icon fa fa-trash"></i></button>`
+						},
+						orderable: false
+					},
+				],
+				drawCallback: () => {
+					$('.dataTables_paginate > .pagination a').addClass('btn btn-sm')
+					$('.dataTables_wrapper').addClass('text-center')
+				}
+			})
+			let formModal = new bootstrap.Modal($("#formModal"))
+
+			$(document).on('click', ".edit-data", function (event) {
+				const data = table.row(event.currentTarget.dataset.index).data()
+				$("#name").val(data.name)
+				$("#editId").val(data.id)
+				$(".modal-title").text("Ubah Customer Pusat")
+				formModal.show()
+			})
+
+			$(document).on('click', ".delete-data", function (event) {
+				const dataId = event.currentTarget.dataset.id
+				swal({
+					title: "Apakah Anda Yakin?",
+					text: "Data tidak dapat dipulihkan",
+					icon: "warning",
+					buttons: true,
+					dangerMode: true,
+				}).then((willDelete) => {
+					if(!willDelete) {
+						return
+					}
+					$.ajax({
+						type: "GET",
+						url: `/api/master/customer/${dataId}/trash`,
+						success: (res) => {
+							swal({
+								title: "Sukses",
+								text: res.message,
+								icon: "success"
+							});
+							table.ajax.reload()
+						},
+						error: ({responseJSON}) => {
+							swal({
+								title: "Terjadi Kesalahan",
+								text: responseJSON.message,
+								icon: "error"
+							});
+						}
+					});
+				});
+			})
+
+			$("#addData").on('click', (e) => {
+				$(".modal-title").text("Tambah Customer Pusat")
+				formModal.show()
+			})
+
+			$('#formModal').on('hidden.bs.modal', event => {
+				$("#editId").val("")
+				$("#customerForm").trigger("reset")
+			})
+
+			$("#customerForm").on('submit', (e) => {
+				e.preventDefault()
+				let formData = $('#customerForm').serialize()
+				$.ajax({
+					type: "POST",
+					url: "/api/master/customer/save",
+					data: formData,
+					success: (res) => {
+						$("#editId").val("")
+						$("#customerForm").trigger("reset")
+						swal({
+							title: "Sukses",
+							text: res.message,
+							icon: "success"
+						});
+						table.ajax.reload()
+						formModal.hide()
+					},
+					error: ({responseJSON}) => {
+						swal({
+							title: "Terjadi Kesalahan",
+							text: responseJSON.message,
+							icon: "error"
+						});
+					}
+				});
+			})
+
+
+		})

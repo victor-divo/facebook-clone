@@ -1,0 +1,18 @@
+if messages.errors
+  .alert.alert-danger(role='alert')
+    button.close(type='button', data-dismiss='alert')
+      i.fa.fa-times-circle
+    for error in messages.errors
+      div= error.msg
+if messages.info
+  .alert.alert-info(role='alert')
+    button.close(type='button', data-dismiss='alert')
+      i.fa.fa-times-circle
+    for info in messages.info
+      div= info.msg
+if messages.success
+  .alert.alert-success(role='alert')
+    button.close(type='button', data-dismiss='alert')
+      i.fa.fa-times-circle
+    for success in messages.success
+      div= success.msg

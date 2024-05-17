@@ -1,0 +1,40 @@
+doctype html
+html(lang='en')
+  head
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, user-scalable=no')
+    meta(name='description', content='')
+    meta(name='author', content='')
+    title #{title}
+    link(rel='stylesheet', href=`/assets/styles/style.css`)
+    // Waves Effect
+    link(rel='stylesheet', href=`/assets/plugin/waves/waves.min.css`)
+
+    script(src=`/assets/scripts/modernizr.min.js`)
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js')
+    script(src=`/assets/plugin/bootstrap/js/bootstrap.min.js`)
+    script(src=`/assets/plugin/waves/waves.min.js`)
+
+  body
+    //- #single-wrapper
+    form.frm-single(method='POST', action=`/login`)
+      input(type='hidden', name='_csrf', value=_csrf)
+      .inside
+        .title
+          .frm-logo 
+            img(src=`/assets/images/logo-pertamina.jpeg`, width="200")
+          h1 Patra Logistik
+          .frm-title Silahkan Login Untuk Mengakses Aplikasi
+          .frm-input
+            input.frm-inp(type='text', name='username' placeholder='Username')
+            i.fa.fa-user.frm-ico
+          .frm-input
+            input.frm-inp(type='password', name='password' placeholder='Password')
+            i.fa.fa-lock.frm-ico
+          .clearfix.margin-bottom-20
+            button.frm-submit(type='submit')
+              | Masuk
+          if messages.errors
+            for error in messages.errors
+              p(style="color:red;font-size:10px")=error.msg
